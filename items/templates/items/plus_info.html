@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="{% static 'css/plus_info.css' %}">
 {% endblock %}
 
-{% block content %}
+{% block plus_content %}
 <form method="POST" action="{% url 'items:create' %}" enctype="multipart/form-data">
 {% csrf_token %}
 
@@ -15,8 +15,23 @@
     <div class="frame_143">
         <div class="font_2">카테고리</div>
         <div class="frame_142">
+                {% if selected_category %}
+        {% if selected_category.name == '패션' %}
+            <img src="{% static 'images/image25.png' %}" class="icon_1">
+        {% elif selected_category.name == '뷰티' %}
+            <img src="{% static 'images/image26.png' %}" class="icon_1">
+        {% elif selected_category.name == '라이프' %}
+            <img src="{% static 'images/image27.png' %}" class="icon_1">
+        {% elif selected_category.name == '기타' %}
+            <img src="{% static 'images/image28.png' %}" class="icon_1">
+        {% else %}
+            <img src="{% static 'images/image31.png' %}" class="icon_1">
+        {% endif %}
+            {% endif %}
+
             <select name="category" class="frame_149">
                 {% for cat in categories %}
+                 {{cat.image}}
                 <option value="{{ cat.id }}" {% if cat.id == selected_category.id %}selected{% endif %}>
                     {{ cat.name }}
                 </option>

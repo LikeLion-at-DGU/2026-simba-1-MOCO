@@ -1,6 +1,11 @@
+{% extends 'base.html' %}
 {% load static %}
-<link rel="stylesheet" href="{% static 'css/current.css' %}">
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/current.css' %}">
+{% endblock %}
+
+{% block content %}
 <div class="rectangle_9">
 
     <div class="pretendard">
@@ -183,3 +188,5 @@ document.getElementById('addCategoryForm')
     }
 });
 </script>
+
+{% endblock %}
