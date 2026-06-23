@@ -40,8 +40,6 @@ def cup_result(request):
 
     return render(request, 'cup_result.html', context)
 
-def login(request):
-    return render(request, 'login.html')
 
 def main(request):
     return render(request, 'main.html')
@@ -49,8 +47,8 @@ def main(request):
 def signup(request):
     return render(request, 'signup.html')
 
-def agree(request):
-    return render(request, 'agree.html')
+def terms(request):
+    return render(request, 'terms.html')
 
 def product(request):
     return render(request, 'product.html')
