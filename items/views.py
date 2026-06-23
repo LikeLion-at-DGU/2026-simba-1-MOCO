@@ -48,7 +48,7 @@ def create(request):
         new_item.price = price
         new_item.save()
         
-        return redirect('items:storage')
+        return redirect('items:main')
     
     return redirect('items:plus')
 
@@ -126,9 +126,15 @@ def plus_info(request):
     if not request.user.is_authenticated:
         return redirect('accounts:login')
     
+    category_id = request.GET.get('category')
+    selected_category = get_object_or_404(Category, pk=category_id) if category_id else None
+    
     categories = Category.objects.filter(creator=request.user) | Category.objects.filter(is_default=True)
-
-    return render(request, 'items/plus_info.html', {'categories': categories})
+    
+    return render(request, 'items/plus_info.html', {
+        'categories': categories,
+        'selected_category': selected_category  # 선택된 카테고리 따로 넘겨줌
+    })
 
 def product(request):
     return render(request, 'items/product.html')

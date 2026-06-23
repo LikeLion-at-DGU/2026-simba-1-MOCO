@@ -15,7 +15,9 @@
         <div class="frame_142"> 
             <select name="category" class="frame_149">
                 {% for cat in categories %}
-                <option value="{{ cat.id }}">{{ cat.name }}</option>
+                <option value="{{ cat.id }}" {% if cat.id == selected_category.id %}selected{% endif %}>
+                    {{ cat.name }}
+                </option>
                 {% endfor %}
             </select>
         </div>
