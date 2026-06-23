@@ -12,7 +12,7 @@ def create(request):
             return render(request, 'categories/current.html', {'error': '동일 이름의 카테고리가 존재합니다.'})
         new_category = Category()
         new_category.creator = request.user
-        new_category.name = request.POST['name']
+        new_category.name = request.POST['name']   
         new_category.save()
         return redirect('categories:current')
 
