@@ -29,7 +29,13 @@ def create(request):
     if not request.user.is_authenticated:
         return redirect('accounts:login')
     
+    #수아-수정
     if request.method == 'POST':
+        category_id = request.POST.get('category')
+        
+        if not category_id:
+            return redirect('items:plus')
+    
         new_item = Item()
         new_item.owner_user = request.user
         new_item.category = get_object_or_404(Category, pk=request.POST['category'])
@@ -41,8 +47,10 @@ def create(request):
         
         return redirect('items:storage')
     
-    categories = Category.objects.filter(creator=request.user) | Category.objects.filter(is_default=True)
-    return render(request, 'items/create.html', {'categories': categories})
+    return redirect('items:plus')
+    #아이템 등록 페이지 처음 보여줄 때 사용/
+    #categories = Category.objects.filter(creator=request.user) | Category.objects.filter(is_default=True)
+    #return render(request, 'items/create.html', {'categories': categories})
 
 def detail(request, item_id):
     if not request.user.is_authenticated:
