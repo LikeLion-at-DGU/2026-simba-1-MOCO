@@ -42,15 +42,15 @@ def create(request):
         new_item.product_name = request.POST['product_name']
         new_item.image = request.FILES.get('image')
         new_item.product_url = request.POST.get('product_url')
-        new_item.price = request.POST.get('price')
+        price = request.POST.get('price')
+        if price == '':
+            price = None
+        new_item.price = price
         new_item.save()
         
-        return redirect('items:storage')
+        return redirect('items:main')
     
     return redirect('items:plus')
-    #아이템 등록 페이지 처음 보여줄 때 사용/
-    #categories = Category.objects.filter(creator=request.user) | Category.objects.filter(is_default=True)
-    #return render(request, 'items/create.html', {'categories': categories})
 
 def detail(request, item_id):
     if not request.user.is_authenticated:
@@ -116,22 +116,20 @@ def delete(request, item_id):
     
     return redirect('items:storage')
 
-def main(request):
-    return render(request, 'items/main.html')
-
-def plus(request):
-    return render(request, 'items/plus.html')
-
 def plus_info(request):
     if not request.user.is_authenticated:
         return redirect('accounts:login')
     
+    category_id = request.GET.get('category')
+    selected_category = get_object_or_404(Category, pk=category_id) if category_id else None
+    
     categories = Category.objects.filter(creator=request.user) | Category.objects.filter(is_default=True)
+    
+    return render(request, 'items/plus_info.html', {
+        'categories': categories,
+        'selected_category': selected_category  # 선택된 카테고리 따로 넘겨줌
+    })
 
-    return render(request, 'items/plus_info.html', {'categories': categories})
-
-def product(request):
-    return render(request, 'items/product.html')
 
 def main(request):
     if not request.user.is_authenticated:
@@ -153,3 +151,16 @@ def plus(request):
     
     categories = Category.objects.filter(creator=request.user) | Category.objects.filter(is_default=True)
     return render(request, 'items/plus.html', {'categories': categories})
+
+def delete_multiple(request):
+    if not request.user.is_authenticated:
+        return redirect('accounts:login')
+    
+    if request.method == 'POST':
+        item_ids = request.POST.getlist('item_ids')
+        for item_id in item_ids:
+            item = get_object_or_404(Item, pk=item_id, owner_user=request.user)
+            item.is_deleted = True
+            item.save()
+    
+    return redirect('items:storage')
