@@ -213,7 +213,7 @@ def tournament_result(request, pk):
 
 
 # 공유 링크 
-def generate_share_link(request, pk):
+def tournament_link(request, pk):
     if not request.user.is_authenticated:
         return redirect("accounts:login")
 

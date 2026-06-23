@@ -27,7 +27,7 @@
                 </div>
 
                 <div class="group1">
-                    <div class="Frame71">{{ current_match_number }}/{{ total_match_count }} 경기</div>
+                    <div class="Frame71">{{ current_match_no }}/{{ total_matches }} 경기</div>
                 </div>
             </div>
         </div>
@@ -52,6 +52,8 @@
 
 <form method="POST" action="{% url 'tournaments:play' tournament.pk %}" id="match-form">
     {% csrf_token %}
+    
+    <input type="hidden" name="match_id" value="{{ match_id }}">
     <input type="hidden" name="winner_item_id" id="winner-item-id">
 
     <div class="Frame82">
